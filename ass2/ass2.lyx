@@ -1,0 +1,3071 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumerate}
+\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{physics}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{cancel}
+
+\geometry{margin=2.5cm}
+
+\newcommand{\kB}{k_B}
+\newcommand{\EF}{\varepsilon_F}
+\newcommand{\muB}{\mu_B}
+\newcommand{\vF}{v_F}
+\newcommand{\kF}{k_F}
+
+\title{\textbf{Assignment 2 -- Theory}}
+\author{Rotem Beker 217386598}
+\date{Bar-Ilan CS 89-3312, Parallel Systems Programming}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Question 1:
+ Balanced Parentheses}
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+We wish to determine whether the parentheses in a given mathematical expression are balanced.
+\end_layout
+
+\begin_layout Plain Layout
+
+We present a parallel algorithm that decides this in time $O(
+\backslash
+log n)$,
+ using $n$ threads,
+ where $n$ is the length of the input string.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Algorithm Description}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+The key insight is to encode each character as an integer and reduce the problem to a prefix-sum check.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Map every character of the input string to an integer:
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+item 
+\backslash
+texttt{(} $
+\backslash
+mapsto +1$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+item 
+\backslash
+texttt{)} $
+\backslash
+mapsto -1$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+item any other character $
+\backslash
+mapsto 0$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Build an integer array $A$ of length $n$,
+ where $A[i]$ holds the value assigned to character $i$.
+ Apply a parallel 
+\backslash
+textit{prefix-sum} on $A$;
+ call the result $S$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item $S[i]$ now equals the running total of open-minus-close parentheses up to position $i$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item The parentheses are balanced if and only if:
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+item $S[n-1] = 0$ 
+\backslash
+quad (equal number of 
+\backslash
+texttt{(} and 
+\backslash
+texttt{)}).
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+item $
+\backslash
+forall
+\backslash
+,
+ 0 
+\backslash
+le i 
+\backslash
+le n-1 :
+ S[i] 
+\backslash
+ge 0$ 
+\backslash
+quad (no prefix has more closing than opening brackets).
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Pseudocode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Procedure{BalancedParentheses}{string $str$,
+ integer $n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+textbf{parallel for} $i = 0$ to $n-1$:
+ 
+\backslash
+quad $A[i] 
+\backslash
+leftarrow 
+\backslash
+text{encode}(str[i])$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State $S 
+\backslash
+leftarrow 
+\backslash
+text{ParallelPrefixSum}(A)$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+If{$S[n-1] 
+\backslash
+neq 0$} 
+\backslash
+Return 
+\backslash
+textbf{false} 
+\backslash
+EndIf
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+textbf{parallel for} $i = 0$ to $n-1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+If{$S[i] < 0$} 
+\backslash
+Return 
+\backslash
+textbf{false} 
+\backslash
+EndIf
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+Return 
+\backslash
+textbf{true}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+EndProcedure
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Proof of Correctness}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Claim:} The expression has balanced parentheses $
+\backslash
+Leftrightarrow$ the algorithm returns 
+\backslash
+textit{true}.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{($
+\backslash
+Leftarrow$) Balanced $
+\backslash
+Rightarrow$ algorithm returns true.}
+\end_layout
+
+\begin_layout Plain Layout
+
+Let the input be a balanced expression.
+ By definition,
+ every opening parenthesis has a matching closing one,
+ so the total count is equal:
+ $S[n-1] = 0$,
+ and the first condition holds.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Suppose for contradiction that $S[i] < 0$ for some index $i$.
+ Then the prefix up to $i$ contains strictly more 
+\backslash
+texttt{)} than 
+\backslash
+texttt{(},
+ which means a closing parenthesis appears without a matching opener —
+ contradicting the assumption that the expression is balanced.
+ Hence $S[i] 
+\backslash
+ge 0$ for all $i$,
+ and the algorithm returns 
+\backslash
+textit{true}.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{($
+\backslash
+Rightarrow$) Algorithm returns true $
+\backslash
+Rightarrow$ balanced.}
+\end_layout
+
+\begin_layout Plain Layout
+
+Assume the algorithm returns 
+\backslash
+textit{true};
+ we show no violation is possible.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item If some 
+\backslash
+texttt{)} has no matching 
+\backslash
+texttt{(},
+ then some prefix has more closing than opening brackets,
+ so $S[i] < 0$ for that prefix —
+ the algorithm would have returned 
+\backslash
+textit{false}.
+ Contradiction.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item If some 
+\backslash
+texttt{(} has no matching 
+\backslash
+texttt{)},
+ then $S[n-1] > 0 
+\backslash
+neq 0$ —
+ the algorithm would have returned 
+\backslash
+textit{false}.
+ Contradiction.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Therefore the expression is balanced.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Runtime Analysis}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 1 (build $A$):
+ $n$ threads work in parallel —
+ $O(1)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 2 (prefix-sum):
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 3 (check $S[n-1]$):
+ single comparison —
+ $O(1)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 4 (check all $S[i] 
+\backslash
+ge 0$):
+ $n$ threads in parallel —
+ $O(1)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Total:} $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Question 2:
+ Counting Subarrays with a Given Sum}
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Given an array $A$ of length $n$ and a target $b$,
+ count the number of contiguous subarrays whose sum equals exactly $b$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+The core mathematical identity is:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+text{sum}(i,
+ j) = S[j] - S[i-1] = b 
+\backslash
+iff S[j] = S[i-1] + b,
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+where $S$ is the prefix-sum array of $A$ (with $S[-1] = 0$).
+\end_layout
+
+\begin_layout Plain Layout
+
+Hence,
+ for each index $j$ we need to count indices $i 
+\backslash
+le j$ with $S[i-1] = S[j] - b$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%%------------------------------------------------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Part 1:
+ Positive Numbers Only}
+\end_layout
+
+\begin_layout Plain Layout
+
+%%------------------------------------------------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Algorithm Description}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+When all elements are strictly positive,
+ the prefix-sum array $S$ is 
+\backslash
+emph{strictly increasing}.
+\end_layout
+
+\begin_layout Plain Layout
+
+This allows binary search without any prior sorting step.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Compute $S$ via a parallel prefix-sum on $A$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item For each index $j$ (in parallel),
+ set $
+\backslash
+text{target}_j = S[j] - b$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Since $S$ is sorted,
+ use binary search to find the range $[
+\backslash
+ell,
+ r]$ where $S[
+\backslash
+cdot] = 
+\backslash
+text{target}_j$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item The number of valid starting indices for subarrays ending at $j$ is $r - 
+\backslash
+ell + 1$ (or $0$ if no such range exists).
+ Store this in $C[j]$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Return $
+\backslash
+sum_{j} C[j]$ via a parallel prefix-sum on $C$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Pseudocode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Procedure{CountSubarrays
+\backslash
+_Positive}{array $A$,
+ integer $n$,
+ integer $b$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State $S 
+\backslash
+leftarrow 
+\backslash
+text{ParallelPrefixSum}(A)$ 
+\backslash
+quad 
+\backslash
+Comment{$S$ is strictly increasing}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+textbf{parallel for} $j = 0$ to $n-1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $t 
+\backslash
+leftarrow S[j] - b$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $
+\backslash
+ell 
+\backslash
+leftarrow 
+\backslash
+text{LowerBound}(S[0..j-1],
+\backslash
+,
+ t)$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $r 
+\backslash
+leftarrow 
+\backslash
+text{UpperBound}(S[0..j-1],
+\backslash
+,
+ t)$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $C[j] 
+\backslash
+leftarrow 
+\backslash
+max(0,
+\backslash
+;
+ r - 
+\backslash
+ell + 1)$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+Return $
+\backslash
+text{ParallelPrefixSum}(C)[n-1]$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+EndProcedure
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Proof of Correctness}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Claim:} Every contiguous subarray $A[i..j]$ with sum $b$ is counted exactly once.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Every valid subarray is counted ($
+\backslash
+Leftarrow$).}
+\end_layout
+
+\begin_layout Plain Layout
+
+Let $A[i..j]$ have sum $b$.
+ Then $S[j] - S[i-1] = b$,
+ so $S[i-1] = S[j] - b = t_j$.
+\end_layout
+
+\begin_layout Plain Layout
+
+Since $S$ is strictly increasing,
+ $S[i-1]$ is the unique occurrence of $t_j$ in $S[0..j-1]$,
+ so the binary search finds it and $C[j]$ is incremented.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Every counted pair is valid ($
+\backslash
+Rightarrow$).}
+\end_layout
+
+\begin_layout Plain Layout
+
+Suppose the binary search finds index $i-1 
+\backslash
+in [0,
+ j-1]$ with $S[i-1] = t_j = S[j] - b$.
+\end_layout
+
+\begin_layout Plain Layout
+
+Then $
+\backslash
+text{sum}(i,
+ j) = S[j] - S[i-1] = b$ and $i 
+\backslash
+le j$,
+ so $A[i..j]$ is a valid subarray.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Runtime Analysis}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Parallel prefix-sum:
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Binary search for each $j$ in parallel:
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Final summation via prefix-sum:
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Total:} $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%%------------------------------------------------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Part 2:
+ General Case (Arbitrary Integers)}
+\end_layout
+
+\begin_layout Plain Layout
+
+%%------------------------------------------------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Algorithm Description}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+When elements may be negative or zero,
+ $S$ is no longer monotone and must be sorted before binary search.
+\end_layout
+
+\begin_layout Plain Layout
+
+We use a stable parallel sort to preserve original indices.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Check (in parallel) whether all $A[i] 
+\backslash
+ge 0$;
+ set a flag 
+\backslash
+textit{needSort} accordingly.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Compute $S$ via a parallel prefix-sum on $A$.
+ Each entry stores its original index:
+ $(S[i],
+ i)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item If 
+\backslash
+textit{needSort} is true,
+ apply a stable parallel sort on $S$ by value.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item For each index $j$ (in parallel),
+ compute $
+\backslash
+text{red}_j = S[j].
+\backslash
+text{val} - b$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item For each $j$ (in parallel),
+ binary-search for the range $[
+\backslash
+mathit{first},
+ 
+\backslash
+mathit{last}]$ in the sorted $S$ where the value equals $
+\backslash
+text{red}_j$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Within that range,
+ binary-search the original indices to count entries whose original index is strictly less than $j$;
+ call this count $C[j]$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Return $
+\backslash
+text{ParallelPrefixSum}(C)[n-1]$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{enumerate}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Pseudocode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Procedure{CountSubarrays
+\backslash
+_General}{array $A$,
+ integer $n$,
+ integer $b$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+textit{needSort} $
+\backslash
+leftarrow$ 
+\backslash
+textbf{parallel check} $
+\backslash
+exists
+\backslash
+,
+ i:
+ A[i] < 0$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State $S 
+\backslash
+leftarrow 
+\backslash
+text{ParallelPrefixSum}(A)$ 
+\backslash
+quad 
+\backslash
+Comment{store pairs $(S[i],
+ 
+\backslash
+text{origIdx}=i)$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+If{
+\backslash
+textit{needSort}} $S 
+\backslash
+leftarrow 
+\backslash
+text{StableParallelSort}(S)$ 
+\backslash
+EndIf
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+textbf{parallel for} $j = 0$ to $n-1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $
+\backslash
+mathit{red} 
+\backslash
+leftarrow S[j].
+\backslash
+text{val} - b$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $
+\backslash
+mathit{first} 
+\backslash
+leftarrow 
+\backslash
+text{LowerBound}(S,
+\backslash
+,
+ 
+\backslash
+mathit{red})$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $
+\backslash
+mathit{last}  
+\backslash
+leftarrow 
+\backslash
+text{UpperBound}(S,
+\backslash
+,
+ 
+\backslash
+mathit{red})$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad 
+\backslash
+textit{size} $
+\backslash
+leftarrow$ last index in $S[
+\backslash
+mathit{first}..
+\backslash
+mathit{last}]$ s.t.
+\backslash
+ $
+\backslash
+text{origIdx} < j$ 
+\backslash
+quad 
+\backslash
+Comment{binary search on origIdx}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $C[j] 
+\backslash
+leftarrow 
+\backslash
+mathit{size} - 
+\backslash
+mathit{first} + 1$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+Return $
+\backslash
+text{ParallelPrefixSum}(C)[n-1]$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+EndProcedure
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Why Stable Sort?}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Within a block of equal values in the sorted $S$,
+ entries are ordered by their original index (thanks to stability).
+ This makes the inner binary search on original indices correct,
+ since the block is sorted by index.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Proof of Correctness}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Every valid subarray is counted ($
+\backslash
+Leftarrow$).}
+\end_layout
+
+\begin_layout Plain Layout
+
+Suppose $
+\backslash
+text{sum}(i,
+ j) = b$,
+ i.e.
+\backslash
+ $S[j] - S[i-1] = b$ with $i-1 < j$.
+\end_layout
+
+\begin_layout Plain Layout
+
+Thread $j$ sets $
+\backslash
+mathit{red} = S[j] - b = S[i-1]$.
+\end_layout
+
+\begin_layout Plain Layout
+
+After sorting,
+ $S[i-1]$ lies in the range $[
+\backslash
+mathit{first},
+ 
+\backslash
+mathit{last}]$.
+\end_layout
+
+\begin_layout Plain Layout
+
+Since $i - 1 < j$,
+ it satisfies the original-index filter and is counted in $C[j]$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Every counted pair is valid ($
+\backslash
+Rightarrow$).}
+\end_layout
+
+\begin_layout Plain Layout
+
+Thread $j$ counts an entry $e$ only if $e.
+\backslash
+text{val} = 
+\backslash
+mathit{red} = S[j] - b$ and $e.
+\backslash
+text{origIdx} < j$.
+\end_layout
+
+\begin_layout Plain Layout
+
+Setting $i - 1 = e.
+\backslash
+text{origIdx}$ gives $
+\backslash
+text{sum}(i,
+ j) = S[j] - e.
+\backslash
+text{val} = b$,
+ a valid subarray.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsubsection{Runtime Analysis}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 1 (positivity check):
+ $O(1)$ in parallel.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 2 (prefix-sum):
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 3 (stable parallel sort,
+ if needed):
+ $O(
+\backslash
+log^2 n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Steps 4--6 (binary searches in parallel):
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Step 7 (final sum):
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Total:} $O(
+\backslash
+log n)$ (positive-only case),
+ $O(
+\backslash
+log^2 n)$ (general case).
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Question 3:
+ $k$-th Ancestor in a Rooted Tree}
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Given a rooted tree of $n$ nodes represented by a parent-pointer array (the root points to itself) and an integer $k$,
+ find for every node its $k$-th ancestor.
+ Return $-1$ if no such ancestor exists.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Goal:} parallel runtime $O(
+\backslash
+log k)$ using $n$ threads.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Algorithm Description}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+A naïve step-by-step climb takes $O(k)$.
+ We exploit the binary representation of $k$:
+ since $k = 
+\backslash
+sum_{j:
+\backslash
+,
+ b_j=1} 2^j$,
+ we can accumulate jumps of size $2^j$ for each set bit.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+We maintain two arrays:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item $
+\backslash
+mathit{loc}[i]$:
+ current position of node $i$ after processing the bits seen so far.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item $
+\backslash
+mathit{prog}[i]$:
+ the ancestor of node $i$ at distance $2^j$ (doubles every iteration).
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Pseudocode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Procedure{kthAncestor}{parent[0..n-1],
+ $n$,
+ $k$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+textbf{parallel for} $i = 0$ to $n-1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $
+\backslash
+mathit{loc}[i] 
+\backslash
+leftarrow i$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad 
+\backslash
+textbf{if} $
+\backslash
+mathit{parent}[i] = i$ 
+\backslash
+textbf{then} $
+\backslash
+mathit{prog}[i] 
+\backslash
+leftarrow -1$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad 
+\backslash
+textbf{else} $
+\backslash
+mathit{prog}[i] 
+\backslash
+leftarrow 
+\backslash
+mathit{parent}[i]$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+For{$j = 0$ to $
+\backslash
+lfloor 
+\backslash
+log_2 k 
+\backslash
+rfloor$}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+If{$(k 
+\backslash
+gg j)
+\backslash
+ 
+\backslash
+&
+\backslash
+ 1 = 1$} 
+\backslash
+Comment{bit $j$ of $k$ is set}
+\end_layout
+
+\begin_layout Plain Layout
+
+      
+\backslash
+State 
+\backslash
+textbf{parallel for} $i = 0$ to $n-1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+        
+\backslash
+State 
+\backslash
+quad 
+\backslash
+textbf{if} $
+\backslash
+mathit{loc}[i] 
+\backslash
+neq -1$ 
+\backslash
+textbf{and} $
+\backslash
+mathit{prog}[
+\backslash
+mathit{loc}[i]] 
+\backslash
+neq -1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+          
+\backslash
+State 
+\backslash
+quad 
+\backslash
+quad $
+\backslash
+mathit{loc}[i] 
+\backslash
+leftarrow 
+\backslash
+mathit{prog}[
+\backslash
+mathit{loc}[i]]$
+\end_layout
+
+\begin_layout Plain Layout
+
+        
+\backslash
+State 
+\backslash
+quad 
+\backslash
+textbf{else}:
+ $
+\backslash
+mathit{loc}[i] 
+\backslash
+leftarrow -1$
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+EndIf
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+textbf{parallel for} $i = 0$ to $n-1$:
+ 
+\backslash
+Comment{double the jump size}
+\end_layout
+
+\begin_layout Plain Layout
+
+      
+\backslash
+State 
+\backslash
+quad $
+\backslash
+mathit{cur} 
+\backslash
+leftarrow 
+\backslash
+mathit{prog}[i]$
+\end_layout
+
+\begin_layout Plain Layout
+
+      
+\backslash
+State 
+\backslash
+quad 
+\backslash
+textbf{if} $
+\backslash
+mathit{cur} 
+\backslash
+neq -1$ 
+\backslash
+textbf{and} $
+\backslash
+mathit{prog}[
+\backslash
+mathit{cur}] 
+\backslash
+neq -1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+        
+\backslash
+State 
+\backslash
+quad 
+\backslash
+quad $
+\backslash
+mathit{prog}[i] 
+\backslash
+leftarrow 
+\backslash
+mathit{prog}[
+\backslash
+mathit{cur}]$
+\end_layout
+
+\begin_layout Plain Layout
+
+      
+\backslash
+State 
+\backslash
+quad 
+\backslash
+textbf{else}:
+ $
+\backslash
+mathit{prog}[i] 
+\backslash
+leftarrow -1$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+EndFor
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+Return $
+\backslash
+mathit{loc}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+EndProcedure
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Proof of Correctness}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Claim:} A $k$-th ancestor of $v$ exists $
+\backslash
+Leftrightarrow$ the algorithm returns it in $
+\backslash
+mathit{loc}[v]$;
+ otherwise $
+\backslash
+mathit{loc}[v] = -1$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{($
+\backslash
+Rightarrow$) Algorithm returns non-$(-1)$ $
+\backslash
+Rightarrow$ correct ancestor.}
+\end_layout
+
+\begin_layout Plain Layout
+
+Each iteration $j$ in which bit $j$ is set applies a jump of exactly $2^j$ (by the doubling invariant on $
+\backslash
+mathit{prog}$).
+ The total distance traversed is
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+sum_{j:
+\backslash
+,
+ b_j = 1} 2^j = k.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+Since the algorithm returned a non-$(-1)$ value,
+ all jumps stayed within tree bounds.
+ Therefore $
+\backslash
+mathit{loc}[v]$ is the ancestor of $v$ at distance exactly $k$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{($
+\backslash
+Leftarrow$) $k$-th ancestor exists $
+\backslash
+Rightarrow$ algorithm finds it.}
+\end_layout
+
+\begin_layout Plain Layout
+
+If $k 
+\backslash
+le 
+\backslash
+text{depth}(v)$,
+ every partial jump stays within the tree,
+ so $
+\backslash
+mathit{prog}[
+\backslash
+mathit{loc}[v]] 
+\backslash
+neq -1$ at every relevant step,
+ and the updates accumulate to distance $k$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Out-of-bounds case.}
+\end_layout
+
+\begin_layout Plain Layout
+
+If $k > 
+\backslash
+text{depth}(v)$,
+ some jump would exceed the root.
+ At that step $
+\backslash
+mathit{prog}[
+\backslash
+mathit{loc}[v]] = -1$,
+ the algorithm sets $
+\backslash
+mathit{loc}[v] 
+\backslash
+leftarrow -1$,
+ and this value propagates to the end.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Runtime Analysis}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Initialisation (step 1):
+ $O(1)$ in parallel.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Main loop:
+ $
+\backslash
+lfloor 
+\backslash
+log_2 k 
+\backslash
+rfloor + 1$ iterations,
+ each $O(1)$ in parallel —
+ total $O(
+\backslash
+log k)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Total:} $O(
+\backslash
+log k)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+section{Question 4:
+ Trapping Rain Water}
+\end_layout
+
+\begin_layout Plain Layout
+
+%%=============================================================
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Given an array $
+\backslash
+mathit{height}[0..n-1]$ of non-negative integers representing bar heights of width 1,
+ compute the total units of water trapped after rain.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Algorithm Description}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+The water above position $i$ equals
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+  w[i] = 
+\backslash
+max
+\backslash
+bigl(0,
+\backslash
+;
+ 
+\backslash
+min(
+\backslash
+mathit{lmax}[i],
+\backslash
+,
+ 
+\backslash
+mathit{rmax}[i]) - 
+\backslash
+mathit{height}[i]
+\backslash
+bigr),
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+where $
+\backslash
+mathit{lmax}[i] = 
+\backslash
+max_{j 
+\backslash
+le i} 
+\backslash
+mathit{height}[j]$ and $
+\backslash
+mathit{rmax}[i] = 
+\backslash
+max_{j 
+\backslash
+ge i} 
+\backslash
+mathit{height}[j]$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+We compute $
+\backslash
+mathit{lmax}$ via a left-to-right parallel prefix-max,
+ and $
+\backslash
+mathit{rmax}$ via a right-to-left parallel prefix-max (equivalently,
+ reverse the array,
+ prefix-max,
+ reverse back).
+ Both are standard $O(
+\backslash
+log n)$ operations.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Pseudocode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+Procedure{TrappingRainWater}{height[0..n-1],
+ $n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State $
+\backslash
+mathit{lmax} 
+\backslash
+leftarrow 
+\backslash
+text{ParallelPrefixMax}(
+\backslash
+mathit{height})$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+Comment{left-to-right:
+ $
+\backslash
+mathit{lmax}[i] = 
+\backslash
+max_{j 
+\backslash
+le i} 
+\backslash
+mathit{height}[j]$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State $
+\backslash
+mathit{rmax} 
+\backslash
+leftarrow 
+\backslash
+text{ParallelPrefixMax}(
+\backslash
+text{reverse}(
+\backslash
+mathit{height}))$,
+ then reverse $
+\backslash
+mathit{rmax}$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+Comment{$
+\backslash
+mathit{rmax}[i] = 
+\backslash
+max_{j 
+\backslash
+ge i} 
+\backslash
+mathit{height}[j]$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+textbf{parallel for} $i = 0$ to $n-1$:
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+State 
+\backslash
+quad $w[i] 
+\backslash
+leftarrow 
+\backslash
+max
+\backslash
+bigl(0,
+\backslash
+;
+ 
+\backslash
+min(
+\backslash
+mathit{lmax}[i],
+ 
+\backslash
+mathit{rmax}[i]) - 
+\backslash
+mathit{height}[i]
+\backslash
+bigr)$
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+State 
+\backslash
+Return $
+\backslash
+text{ParallelPrefixSum}(w)[n-1]$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+EndProcedure
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Proof of Correctness}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Claim:} $
+\backslash
+sum_i w[i]$ equals the total trapped water.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Lower bound (no overcounting).}
+\end_layout
+
+\begin_layout Plain Layout
+
+$w[i] 
+\backslash
+ge 0$ by the $
+\backslash
+max(0,
+ 
+\backslash
+cdot)$ guard,
+ so no negative water is added.
+\end_layout
+
+\begin_layout Plain Layout
+
+$w[i] 
+\backslash
+le 
+\backslash
+min(
+\backslash
+mathit{lmax}[i],
+ 
+\backslash
+mathit{rmax}[i]) - 
+\backslash
+mathit{height}[i]$:
+ the water level at $i$ cannot exceed the shorter of the two surrounding walls,
+ and the bar itself occupies $
+\backslash
+mathit{height}[i]$ units.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Upper bound (no undercounting).}
+\end_layout
+
+\begin_layout Plain Layout
+
+For any position $i$ where $
+\backslash
+min(
+\backslash
+mathit{lmax}[i],
+ 
+\backslash
+mathit{rmax}[i]) > 
+\backslash
+mathit{height}[i]$,
+ there exist bars at or to the left and at or to the right of $i$ that are at least as tall as $
+\backslash
+min(
+\backslash
+mathit{lmax}[i],
+ 
+\backslash
+mathit{rmax}[i])$.
+ These bars form a container that retains exactly $
+\backslash
+min(
+\backslash
+mathit{lmax}[i],
+ 
+\backslash
+mathit{rmax}[i]) - 
+\backslash
+mathit{height}[i]$ units of water above position $i$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Together,
+ $w[i]$ is the exact water contribution of position $i$,
+ and summing over all positions gives the total trapped water.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+paragraph{Example verification.}
+\end_layout
+
+\begin_layout Plain Layout
+
+For $
+\backslash
+mathit{height} = [0,2,0,3,1,0,1,3,2,1]$:
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tabular}{c|cccccccccc}
+\end_layout
+
+\begin_layout Plain Layout
+
+$i$           & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 
+\backslash
+
+\backslash
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+height        & 0 & 2 & 0 & 3 & 1 & 0 & 1 & 3 & 2 & 1 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+lmax          & 0 & 2 & 2 & 3 & 3 & 3 & 3 & 3 & 3 & 3 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+rmax          & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 2 & 1 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+$w[i]$        & 0 & 0 & 2 & 0 & 2 & 3 & 2 & 0 & 0 & 0 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tabular}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+$
+\backslash
+sum w[i] = 0+0+2+0+2+3+2+0+0+0 = 9$ 
+\backslash
+checkmark
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subsection{Runtime Analysis}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Parallel prefix-max for $
+\backslash
+mathit{lmax}$:
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Reverse + parallel prefix-max + reverse for $
+\backslash
+mathit{rmax}$:
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Computing $w[i]$ in parallel:
+ $O(1)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+item Parallel prefix-sum for total:
+ $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{Total:} $O(
+\backslash
+log n)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
